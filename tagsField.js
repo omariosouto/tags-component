@@ -99,7 +99,6 @@ const tagsField = (() => {
             getTagsFromServer: function getTagsFromServer() {
                 return fetch(APIEndPoint)
                     .then(this.defaultResponseHandler)
-                    .then(tags => tags.forEach(tag => createTagListItem(tag.name, tag.id)))
             }
     }
 
@@ -107,6 +106,9 @@ const tagsField = (() => {
         APIEndPoint = APITagsEndpoint;
         setupInputField(inputSelector)        
         setupTagList()
-        getTagsOnLoad && TagsService.getTagsFromServer().then(updateInputHiddenValues)
+        getTagsOnLoad && TagsService
+            .getTagsFromServer()
+            .then(tags => tags.forEach(tag => createTagListItem(tag.name, tag.id)))
+            .then(updateInputHiddenValues)
     }
 })()
