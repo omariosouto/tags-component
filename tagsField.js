@@ -13,11 +13,11 @@ const tagsField = (() => {
         function handleUserInput({ target }) {
             const tagsDirty = target.value.trim().split(',')
             const hasMoreThanOneTag = tagsDirty.length > 1
-            const tags = tagsDirty.filter((tagName) => tagName)
+            const tagNames = tagsDirty.filter((tagName) => tagName)
 
             if(hasMoreThanOneTag) {
-                tags.forEach((tag) => {
-                    TagsService.sendTagToServer(tag)
+                tagNames.forEach((tagName) => {
+                    TagsService.sendTagToServer(tagName)
                         .then(tag => {
                             createTagListItem(tag.name, tag.id)
                             updateInputHiddenValues()
@@ -84,14 +84,14 @@ const tagsField = (() => {
                 if(res.ok) return res.json()
                 alert('Erro na comunicação com o servidor :(')
             },
-            sendTagToServer: function sendTagToServer(tag) {
+            sendTagToServer: function sendTagToServer(tagName) {
                 return fetch(APIEndPoint, {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json',
                     },
                     body: JSON.stringify({
-                        name: tag,
+                        name: tagName,
                     })
                 })
                 .then(this.defaultResponseHandler)
